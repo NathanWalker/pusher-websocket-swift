@@ -13,6 +13,11 @@ import Foundation
         return self.subscribe(channelName, onMemberAdded: nil, onMemberRemoved: nil)
     }
 
+    public func subscribe(channelName: String, eventName: String, callback: @escaping (Any?) -> Void) -> String {
+        let channel = self.subscribe(channelName, onMemberAdded: nil, onMemberRemoved: nil)
+        return channel.bind(eventName: eventName, callback: callback)
+    }
+
     public func subscribe(
         channelName: String,
         onMemberAdded: ((PusherPresenceChannelMember) -> ())? = nil,
