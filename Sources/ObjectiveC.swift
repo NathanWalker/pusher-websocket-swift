@@ -60,6 +60,43 @@ import Foundation
     }
 }
 
+@objc public extension PusherChannel {
+    public var isSubscribed: Bool {
+        return self.subscribed
+    }
+
+    // public func bindChannel(eventName: String, callback: (Any?) -> Void) -> String {
+    //     return self.bind(eventName: eventName, callback: callback)
+    // }
+
+    /**
+        Unbinds the callback with the given callbackId from the given eventName, in the scope
+        of the channel being acted upon
+
+        - parameter eventName:  The name of the event from which to unbind
+        - parameter callbackId: The unique callbackId string used to identify which callback to unbind
+    */
+    // public func unbindChannel(eventName: String, callbackId: String) {
+    //     self.unbind(eventName: eventName, callbackId: callbackId)
+    // }
+
+    /**
+        Unbinds all callbacks from the channel
+    */
+    // public func unbindAllChannel() {
+    //     self.unbindAll()
+    // }
+
+    /**
+        Unbinds all callbacks for the given eventName from the channel
+
+        - parameter eventName:  The name of the event from which to unbind
+    */
+    // public func unbindAllChannel(forEventName eventName: String) {
+    //     self.unbindAll(forEventName: eventName)
+    // }
+}
+
 @objc public extension PusherClientOptions {
     public convenience init(
         ocAuthMethod authMethod: OCAuthMethod,
