@@ -37,7 +37,7 @@ import Foundation
                 return channel
             } else {
                 var newChannel: PusherChannel
-                if PusherChannelType.isPresenceChannel(name: name) {
+                if PusherChannel.isPresenceChannel(name: name) {
                     newChannel = PusherPresenceChannel(
                         name: name,
                         connection: connection,

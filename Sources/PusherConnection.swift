@@ -333,7 +333,7 @@ public typealias PusherEventJSON = [String: AnyObject]
                 return
             }
 
-            if PusherChannelType.isPresenceChannel(name: channelName) {
+            if PusherChannel.isPresenceChannel(name: channelName) {
                 if let presChan = self.channels.find(name: channelName) as? PusherPresenceChannel {
                     if let dataJSON = getPusherEventJSON(from: eventData) {
                         if let presenceData = dataJSON["presence"] as? [String : AnyObject],
