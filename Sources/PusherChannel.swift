@@ -6,28 +6,10 @@
 //
 //
 
-public enum PusherChannelType {
+@objc public enum PusherChannelType: Int {
     case `private`
     case presence
     case normal
-
-    public init(name: String) {
-        self = Swift.type(of: self).type(forName: name)
-    }
-
-    public static func type(forName name: String) -> PusherChannelType {
-        if (name.components(separatedBy: "-")[0] == "presence") {
-            return .presence
-        } else if (name.components(separatedBy: "-")[0] == "private") {
-            return .private
-        } else {
-            return .normal
-        }
-    }
-
-    public static func isPresenceChannel(name: String) -> Bool {
-        return PusherChannelType(name: name) == .presence
-    }
 }
 
 @objcMembers
@@ -54,7 +36,21 @@ public enum PusherChannelType {
         self.name = name
         self.connection = connection
         self.auth = auth
-        self.type = PusherChannelType(name: name)
+        self.type = PusherChannel.checkChannelType(forName: name)
+    }
+
+    @objc public static func isPresenceChannel(name: String) -> Bool {
+        return PusherChannel.checkChannelType(forName: name) == PusherChannelType.presence
+    }
+
+    @objc public static func checkChannelType(forName name: String) -> PusherChannelType {
+        if (name.components(separatedBy: "-")[0] == "presence") {
+            return PusherChannelType.presence
+        } else if (name.components(separatedBy: "-")[0] == "private") {
+            return PusherChannelType.private
+        } else {
+            return PusherChannelType.normal
+        }
     }
 
     /**
@@ -67,7 +63,7 @@ public enum PusherChannelType {
 
         - returns: A unique callbackId that can be used to unbind the callback at a later time
     */
-    @discardableResult open func bind(eventName: String, callback: @escaping (Any?) -> Void) -> String {
+    @objc @discardableResult open func bind(eventName: String, callback: @escaping (Any?) -> Void) -> String {
         let randomId = UUID().uuidString
         let eventHandler = EventHandler(id: randomId, callback: callback)
         if self.eventHandlers[eventName] != nil {
@@ -85,7 +81,7 @@ public enum PusherChannelType {
         - parameter eventName:  The name of the event from which to unbind
         - parameter callbackId: The unique callbackId string used to identify which callback to unbind
     */
-    open func unbind(eventName: String, callbackId: String) {
+    @objc open func unbind(eventName: String, callbackId: String) {
         if let eventSpecificHandlers = self.eventHandlers[eventName] {
             self.eventHandlers[eventName] = eventSpecificHandlers.filter({ $0.id != callbackId })
         }
